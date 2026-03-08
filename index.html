@@ -43,31 +43,113 @@ body::before{
 }
 
 /* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 60px;
-  background:rgba(15,11,7,0.92);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px;
+  height: 68px;
+  background: rgba(12,8,4,0.96);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(201,146,42,0.15);
+  transition: box-shadow 0.3s;
 }
-.nav-logo{
-  display:flex;flex-direction:column;align-items:flex-start;gap:1px;
-  cursor:pointer;
+nav.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,0.5); }
+
+.nav-logo {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 1px;
+  cursor: pointer; user-select: none; flex-shrink: 0;
 }
-.nav-logo-main{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--gold2);letter-spacing:0.5px;line-height:1.1;}
-.nav-logo-sub{font-size:0.65rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
-.nav-links{display:flex;gap:32px;align-items:center;}
-.nav-links a{color:var(--muted);font-size:0.88rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:color 0.2s;text-decoration:none;}
-.nav-links a:hover,.nav-links a.active{color:var(--gold2);}
-.nav-order{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:#1a0f00;font-weight:600;font-size:0.82rem;
-  letter-spacing:1px;text-transform:uppercase;
-  padding:10px 24px;border-radius:100px;border:none;cursor:pointer;
-  transition:transform 0.2s,box-shadow 0.2s;
+.nav-logo-main { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--gold2); letter-spacing:0.5px; line-height:1.1; }
+.nav-logo-sub  { font-size:0.6rem; letter-spacing:3.5px; color:var(--muted); text-transform:uppercase; }
+
+.nav-links {
+  display: flex; gap: 36px; align-items: center;
 }
-.nav-order:hover{transform:scale(1.04);box-shadow:0 6px 20px rgba(201,146,42,0.4);}
+.nav-links a {
+  color: var(--muted); font-size: 0.78rem; letter-spacing: 1.5px;
+  text-transform: uppercase; cursor: pointer; transition: color 0.2s;
+  text-decoration: none; position: relative; padding-bottom: 4px;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height: 1.5px; background: var(--gold2);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold2); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+
+.nav-order {
+  background: linear-gradient(135deg,var(--gold),var(--gold2));
+  color: #1a0f00; font-weight: 700; font-size: 0.75rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 9px 20px; border-radius: 100px; border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s; flex-shrink: 0;
+}
+.nav-order:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(201,146,42,0.4); }
+
+/* Hamburger */
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 6px; background: none; border: none;
+  z-index: 210;
+}
+.nav-hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--gold2); border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s, width 0.3s;
+  transform-origin: center;
+}
+
+/* Mobile drawer */
+.nav-drawer {
+  display: none;
+  position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+  background: rgba(10,6,2,0.98);
+  backdrop-filter: blur(24px);
+  z-index: 199;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  transform: translateY(-20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.nav-drawer.open {
+  opacity: 1; transform: translateY(0); pointer-events: all;
+}
+.nav-drawer a {
+  display: block; width: 100%;
+  text-align: center;
+  color: var(--muted); font-size: 1.05rem; letter-spacing: 3px;
+  text-transform: uppercase; cursor: pointer; text-decoration: none;
+  padding: 22px 40px;
+  border-bottom: 1px solid rgba(201,146,42,0.08);
+  transition: color 0.2s, background 0.2s;
+  font-family: 'Jost', sans-serif;
+}
+.nav-drawer a:hover, .nav-drawer a.active {
+  color: var(--gold2);
+  background: rgba(201,146,42,0.06);
+}
+.nav-drawer-order {
+  margin-top: 32px;
+  background: linear-gradient(135deg,var(--gold),var(--gold2));
+  color: #1a0f00 !important;
+  font-weight: 700 !important;
+  border-radius: 100px !important;
+  width: auto !important;
+  padding: 14px 40px !important;
+  border-bottom: none !important;
+  letter-spacing: 1.5px !important;
+}
+.nav-drawer-owner {
+  color: var(--gold) !important;
+  font-size: 0.85rem !important;
+}
 
 /* DIVIDER */
 .ornament{text-align:center;color:var(--gold);font-size:1.2rem;letter-spacing:8px;margin:8px 0;}
@@ -458,38 +540,102 @@ textarea.form-input{resize:vertical;min-height:100px;}
 .order-success p{color:var(--muted);font-size:0.9rem;line-height:1.7;}
 
 /* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
 @media(max-width:768px){
-  nav{padding:16px 24px;}
-  .nav-links{display:none;}
-  .hero h1{font-size:2.8rem;}
-  .hero-content{padding:120px 24px 60px;}
-  .info-strip{padding:20px 24px;gap:24px;}
-  .section{padding:60px 24px;}
-  .menu-grid{grid-template-columns:1fr;}
-  .menu-items{grid-template-columns:1fr;}
-  .info-grid{grid-template-columns:1fr;}
-  .rating-hero{flex-direction:column;}
-  .menu-wrap,.reviews-wrap,.info-wrap{padding:100px 24px 60px;}
+  /* Nav */
+  nav { padding: 0 20px; height: 60px; }
+  .nav-links { display: none; }
+  .nav-order { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-drawer { display: flex; top: 60px; }
+
+  /* Hero */
+  .hero h1 { font-size: 2.4rem; }
+  .hero-content { padding: 110px 20px 60px; }
+  .hero-badge { font-size: 0.72rem; }
+  .hero-desc { font-size: 0.9rem; }
+  .hero-stats { gap: 16px; }
+  .hero-stat-num { font-size: 1.4rem; }
+
+  /* Strips & sections */
+  .info-strip { padding: 20px 20px; gap: 20px; flex-wrap: wrap; }
+  .info-item { width: 45%; }
+  .section { padding: 50px 20px; }
+  .section-title { font-size: 1.8rem; }
+
+  /* Menu */
+  .menu-wrap { padding: 80px 16px 60px; }
+  .menu-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .menu-items { grid-template-columns: 1fr; }
+  .cat-nav { gap: 8px; }
+  .cat-pill { font-size: 0.72rem; padding: 7px 14px; }
+
+  /* Reviews */
+  .reviews-wrap { padding: 80px 20px 60px; }
+  .rating-hero { flex-direction: column; gap: 16px; }
+  .rating-big { font-size: 4rem; }
+
+  /* Info */
+  .info-wrap { padding: 80px 20px 60px; }
+  .info-grid { grid-template-columns: 1fr; }
+
+  /* Cart modal */
+  .modal { margin: 0; border-radius: 20px 20px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-height: 92vh; width: 100%; overflow-y: auto; }
+  .modal-overlay { align-items: flex-end; }
+
+  /* Owner panel */
+  .owner-main-tab { font-size: 0.75rem; padding: 10px 12px; }
+  .owner-item { padding: 14px; }
+  .owner-stat { padding: 12px 16px; min-width: 70px; }
+}
+
+@media(max-width:480px){
+  .hero h1 { font-size: 2rem; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; gap: 10px; }
+  .hero-actions .btn { width: 100%; text-align: center; }
+  .hero-stats { grid-template-columns: 1fr 1fr; display: grid; }
+  .info-item { width: 100%; }
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo" onclick="showPage('home')">
+<nav id="mainNav">
+  <div class="nav-logo" onclick="showPage('home');closeDrawer()">
     <span class="nav-logo-main">Harshavardhan</span>
     <span class="nav-logo-sub">Family Restaurant</span>
   </div>
+
+  <!-- Desktop links -->
   <div class="nav-links">
     <a onclick="showPage('home')" class="active" id="nav-home">Home</a>
     <a onclick="showPage('menu')" id="nav-menu">Menu</a>
     <a onclick="showPage('reviews')" id="nav-reviews">Reviews</a>
     <a onclick="showPage('info')" id="nav-info">Info</a>
-    <a onclick="showOwnerLogin()" id="nav-owner" style="color:var(--gold);font-size:0.78rem;">🔑 Owner</a>
+    <a onclick="showOwnerLogin()" id="nav-owner" style="color:var(--gold);">🔑 Owner</a>
   </div>
-  <button class="nav-order" onclick="openCart()">🛒 Order Online</button>
+
+  <button class="nav-order" onclick="openCart()">🛒 Order</button>
+
+  <!-- Hamburger (mobile) -->
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleDrawer()" aria-label="Menu">
+    <span id="hb1"></span>
+    <span id="hb2"></span>
+    <span id="hb3"></span>
+  </button>
 </nav>
+
+<!-- Mobile Drawer -->
+<div class="nav-drawer" id="navDrawer">
+  <a onclick="showPage('home');closeDrawer()" id="dr-home">Home</a>
+  <a onclick="showPage('menu');closeDrawer()" id="dr-menu">Menu</a>
+  <a onclick="showPage('reviews');closeDrawer()" id="dr-reviews">Reviews</a>
+  <a onclick="showPage('info');closeDrawer()" id="dr-info">Info</a>
+  <a onclick="showOwnerLogin();closeDrawer()" class="nav-drawer-owner" id="dr-owner">🔑 Owner</a>
+  <a onclick="openCart();closeDrawer()" class="nav-drawer-order">🛒 Order Online</a>
+</div>
 
 <!-- CART FAB -->
 <button class="cart-fab" onclick="openCart()" id="cartFab" style="display:none;">
@@ -1838,6 +1984,63 @@ function submitReview() {
 document.getElementById('ownerLoginOverlay').addEventListener('click', function(e) { if(e.target===this) closeOwnerLogin(); });
 document.getElementById('itemFormOverlay').addEventListener('click', function(e) { if(e.target===this) closeItemForm(); });
 document.getElementById('cartModal').addEventListener('click', function(e) { if(e.target===this) closeCart(); });
+
+// Hamburger / mobile drawer
+let drawerOpen = false;
+function toggleDrawer() {
+  drawerOpen = !drawerOpen;
+  const drawer = document.getElementById('navDrawer');
+  const hb1 = document.getElementById('hb1');
+  const hb2 = document.getElementById('hb2');
+  const hb3 = document.getElementById('hb3');
+  if (drawerOpen) {
+    drawer.classList.add('open');
+    hb1.style.transform = 'translateY(7px) rotate(45deg)';
+    hb2.style.opacity   = '0';
+    hb3.style.transform = 'translateY(-7px) rotate(-45deg)';
+    document.body.style.overflow = 'hidden';
+  } else {
+    closeDrawer();
+  }
+}
+function closeDrawer() {
+  drawerOpen = false;
+  const drawer = document.getElementById('navDrawer');
+  const hb1 = document.getElementById('hb1');
+  const hb2 = document.getElementById('hb2');
+  const hb3 = document.getElementById('hb3');
+  if (!drawer) return;
+  drawer.classList.remove('open');
+  if (hb1) hb1.style.transform = '';
+  if (hb2) hb2.style.opacity   = '1';
+  if (hb3) hb3.style.transform = '';
+  document.body.style.overflow = '';
+}
+
+// Nav scroll shadow
+window.addEventListener('scroll', function() {
+  const nav = document.getElementById('mainNav');
+  if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Sync drawer active states with nav
+const _origShowPage = showPage;
+// Patch showPage to also update drawer links
+function syncDrawerActive(id) {
+  ['home','menu','reviews','info'].forEach(p => {
+    const el = document.getElementById('dr-' + p);
+    if (el) el.classList.toggle('active', p === id);
+  });
+}
+// Wrap showPage
+(function(){
+  const orig = window.showPage;
+  window.showPage = function(id) {
+    orig(id);
+    syncDrawerActive(id);
+  };
+})();
+
 renderMenuPage();
 </script>
 </body>
